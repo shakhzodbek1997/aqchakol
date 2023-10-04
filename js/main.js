@@ -67,4 +67,59 @@
     });
     
 })(jQuery);
+    document.addEventListener("DOMContentLoaded", function () {
+        const links = document.querySelectorAll('a[href^="#"]');
+        for (const link of links) {
+            link.addEventListener("click", clickHandler);
+        }
 
+        function clickHandler(e) {
+            e.preventDefault();
+            const href = this.getAttribute("href");
+            const target = document.querySelector(href);
+
+            target.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
+    });
+
+
+    emailjs.init("-ET9vfvBRjCvzmm37");
+
+    document.addEventListener("DOMContentLoaded", function () {
+        emailjs.init("your_user_id"); // Replace with your actual Email.js user ID
+    
+        const form = document.getElementById("contactForm");
+    
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+    
+            // Collect form data
+            const formData = new FormData(form);
+    
+            // Send the email
+            emailjs.send("your_service_id", "your_template_id", formData)
+                .then(function (response) {
+                    console.log("Email sent successfully:", response);
+                    // Optionally, redirect to a thank you page or show a success message.
+                })
+                .catch(function (error) {
+                    console.log("Email sending failed:", error);
+                    // Handle the error, display an error message, or retry the submission.
+                });
+        });
+    });
+    
+
+function sendMail(){
+    var params = {
+        from_name : document.getElementById("name").value,
+        email_id : document.getElementById("email").value,
+        subject_id: document.getElementById("subject").value,
+        message: document.getElementById("message").value,
+    }
+    emailjs.send("service_c9a3ynh", "template_qxublsx", params).then(function(res){
+        alert("Success!" + res.status);
+    })
+}
